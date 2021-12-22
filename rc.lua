@@ -124,28 +124,6 @@ local taglist_buttons = gears.table.join(
                     awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
                 )
 
-local tasklist_buttons = gears.table.join(
-                     awful.button({ }, 1, function (c)
-                                              if c == client.focus then
-                                                  c.minimized = true
-                                              else
-                                                  c:emit_signal(
-                                                      "request::activate",
-                                                      "tasklist",
-                                                      {raise = true}
-                                                  )
-                                              end
-                                          end),
-                     awful.button({ }, 3, function()
-                                              awful.menu.client_list({ theme = { width = 250 } })
-                                          end),
-                     awful.button({ }, 4, function ()
-                                              awful.client.focus.byidx(1)
-                                          end),
-                     awful.button({ }, 5, function ()
-                                              awful.client.focus.byidx(-1)
-                                          end))
-
 
 awful.screen.connect_for_each_screen(function(s)
     -- Each screen has its own tag table.
@@ -156,13 +134,13 @@ awful.screen.connect_for_each_screen(function(s)
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
         buttons = taglist_buttons,
-	style = {font = "Hack 21"},
-	layout = {layout = wibox.layout.flex.vertical}}
-	
+	style = {font = "Hack 21", shape = gears.shape.rounded_bar},
+	layout = {layout = wibox.layout.flex.vertical}
+}
     -- Create the wibox
-    s.leftbar = awful.wibar({ position = "left", screen = s, width = 28, opacity = 0.75})
+    s.leftbar = awful.wibar({ position = "left", screen = s, width = 25, height = 350, shape = gears.shape.rounded_bar, opacity = 0.66})
 
-    s.rightbar = awful.wibar({position = "right", screen = s, width = 28, height = 280, opacity = 0.75})
+    s.rightbar = awful.wibar({position = "right", screen = s, width = 25, height = 280, shape = gears.shape.rounded_bar, opacity = 0.66})
 
     -- Add widgets to the wibox
     s.leftbar:setup {
@@ -172,7 +150,7 @@ awful.screen.connect_for_each_screen(function(s)
     s.rightbar:setup {
 	layout = wibox.layout.flex.vertical,
 	clock,
-	require("battery-widget") {widget_text = "${AC_BAT}${color_on}${percent}${color_off}",
+	require("battery-widget") {widget_text = "${AC_BAT}${percent}",
 battery_prefix = "", widget_font = "Hack 15"},
 	date
 	}

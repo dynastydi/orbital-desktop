@@ -1,6 +1,8 @@
 My personal AwesomeWM and ohmyzsh themes, with wallpaper collection.
 A minimalist, productivity-focused setup.
 
+![Screenshot_20211222_222334](https://user-images.githubusercontent.com/86522370/147161931-ce8e6868-1a33-41a9-8fe2-2cc324ae582b.png)
+
 Required from repositories:
 
 AwesomeWM

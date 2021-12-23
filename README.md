@@ -5,12 +5,13 @@ A minimalist, productivity-focused setup.
 
 Required from repositories:
 
-AwesomeWM
+awesome
 zsh
 picom
 feh
 alacritty
 nvim
+hack-ttf
 
 Required from github:
 ohmyzsh
@@ -18,6 +19,8 @@ theme.sh
 battery-widget
 
 Installation:
+
+sudo _package-manager_install_ awesome zsh picom feh alacritty nvim hack-ttf
 
 Place rc.lua in .config/awesome.
 Git clone battery-widget into .config/awesome.

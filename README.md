@@ -4,7 +4,7 @@ A beautiful, minimalist, productivity-focused setup inspired by the _Culture_ sc
 ![Screenshot_20211226_182735](https://user-images.githubusercontent.com/86522370/147416986-e86587ab-eccf-4538-b91a-4fd249c60629.png)
 
 
-Includes subtle diagnostics via shell scripting (network status, CPU temps, disk capacities and availabilities), and custom battery readout based on github.com/deficient/battery-widget.
+Includes subtle diagnostics via shell scripting (network status, CPU temps, disk capacities and availabilities), and custom battery readout adapted from github.com/deficient/battery-widget.
 
 Install is as simple as running:
 

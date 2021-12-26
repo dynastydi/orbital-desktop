@@ -1,29 +1,32 @@
-My personal desktop configs & wallpaper collection.
-A minimalist, productivity-focused setup.
+Custom configuration for AwesomeWM, scripted in Lua and shell.
+A beautiful, minimalist, productivity-focused setup inspired by the _Culture_ sci-fi novels.
 
-![Screenshot_20211222_222334](https://user-images.githubusercontent.com/86522370/147161931-ce8e6868-1a33-41a9-8fe2-2cc324ae582b.png)
+![Screenshot_20211226_182735](https://user-images.githubusercontent.com/86522370/147416986-e86587ab-eccf-4538-b91a-4fd249c60629.png)
 
-Required:
 
-awesome
-hack-ttf
-picom
+Includes subtle diagnostics via shell scripting (network status, CPU temps, disk capacities and availabilities), and custom battery readout based on github.com/deficient/battery-widget.
 
-Extras:
+Install is as simple as running:
 
-feh
-alacritty
-nvim
+```
+${favourite_package_manager} awesome dmenu
+```
 
-Github extras:
+... and placing the contents of this repository into .config/awesome. If using ohmyzsh, set a custom path for orbital.zsh-theme.
 
-ohmyzsh
-theme.sh
-battery-widget
+Optional extras:
 
-Installation:
+**mononoki** used as a global font.
 
-Place rc.lua in .config/awesome.
-Git clone battery-widget into .config/awesome.
-Load orbital.zsh-theme into oh-my-zsh config.
-Place wallpapers in pictures/space.
+**picom** for transparency (spawned with awesome)
+
+**feh** for background (spawned with awesome, will pick random image in /Pictures/wallpapers by default.
+
+**alacritty** as default terminal.
+
+**neovim** as default editor.
+
+**theme.sh** will randomise terminal theme on startup, provided ohmyzsh is installed and theme memory is set up.
+
+
+Shell scripts have only been tested on Linux, not guaranteed to translate on all systems. If diagnostics are not showing up, the scripts are likely failing to run.

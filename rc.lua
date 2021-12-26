@@ -94,14 +94,14 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- Create a textclock widget
 clock = wibox.widget {
 	format = '%H %M %S',
-	font = "Hack 15",
+	font = "mononoki 18",
 	refresh = 1,
 	widget = wibox.widget.textclock
 }
 
 date = wibox.widget {
 	format = '%d %m %y',
-	font = "Hack 15",
+	font = "mononoki 18",
 	refresh = 43200, -- SHOULD refresh at midnight (tweak if needed)
 	widget = wibox.widget.textclock
 }
@@ -134,25 +134,53 @@ awful.screen.connect_for_each_screen(function(s)
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
         buttons = taglist_buttons,
-	style = {font = "Hack 21", shape = gears.shape.rounded_bar},
-	layout = {layout = wibox.layout.flex.vertical}
+	style = {font = "mononoki 27", shape = gears.shape.rounded_bar},
+	layout = 	{layout = wibox.layout.flex.vertical}
 }
-    -- Create the wibox
-    s.leftbar = awful.wibar({ position = "left", screen = s, width = 25, height = 350, shape = gears.shape.rounded_bar, opacity = 0.66})
+	ping = wibox.widget {
+		font = "mononoki 18",
+		widget = awful.widget.watch('bash -c "ping -c1 archlinux.com"', 300, function(widget,stdout)
+			if (stdout:sub(1,1)):match("P") then widget:set_text("ߡη")
+			else widget:set_text("ߜη")
+			end
+		end)}
+	
+	temp = wibox.widget {
+        	font = "mononoki 12",
+        	widget = awful.widget.watch('bash -c "sensors | grep Core | awk \'{print $3}\'| cut -c2-3,8 "', 15)}
+	
+	cap = wibox.widget {
+		font = "mononoki 9",
+		widget = awful.widget.watch('bash -c "df -H / | grep -vE \'^Filesystem\' | awk \'{print $2}\'"', 86400)}
+		
+	disk = wibox.widget {
+		font = "mononoki 12",
+		opacity = 1,
+		widget = awful.widget.watch('bash -c "df -H / | grep -vE \'^Filesystem\' | awk \'{print $5}\'"',  1800)}
 
-    s.rightbar = awful.wibar({position = "right", screen = s, width = 25, height = 280, shape = gears.shape.rounded_bar, opacity = 0.66})
+    -- Create wibars
+    s.leftbar = awful.wibar({ position = "left", screen = s, width = 28, shape = gears.shape.rounded_bar, opacity = 0.75, bg = 'transparent', fg = '#dddddd'})
+
+    s.rightbar = awful.wibar({position = "right", screen = s, width = 28, shape = gears.shape.rounded_bar, opacity = 0.75, bg = 'transparent', fg = '#dddddd'})
 
     -- Add widgets to the wibox
     s.leftbar:setup {
         layout = wibox.layout.flex.vertical,
-	s.mytaglist,
-}
+	ping,
+	{layout = wibox.layout.flex.vertical, s.mytaglist},
+	cap
+	}
+	
     s.rightbar:setup {
 	layout = wibox.layout.flex.vertical,
-	clock,
-	require("battery-widget") {widget_text = "${AC_BAT}${percent}",
-battery_prefix = "", widget_font = "Hack 15"},
-	date
+		temp,
+	{
+		layout = wibox.layout.flex.vertical,
+		clock,
+		require("orbital-bat") {widget_font = "mononoki 18"},
+		date,
+		},
+		disk
 	}
 end)
 -- }}}
@@ -236,7 +264,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
 
-    awful.key({ modkdey, "Control" }, "n",
+    awful.key({ modkey, "Control" }, "n",
               function ()
                   local c = awful.client.restore()
                   -- Focus restored client
@@ -251,7 +279,7 @@ globalkeys = gears.table.join(
     -- Prompt
     awful.key({ modkey },            "space",     function () 
     awful.util.spawn("dmenu_run") end,
-              {description = "launch dmenu", group = "diziet"}),
+              {description = "launch dmenu", group = "orbital"}),
 
     awful.key({ modkey }, "x",
               function ()
@@ -385,7 +413,7 @@ root.keys(globalkeys)
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
-      properties = { border_width = beautiful.border_width,
+      properties = { border_width = 0,
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
                      raise = true,
@@ -448,15 +476,15 @@ client.connect_signal("manage", function (c)
     end
 end)
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+client.connect_signal("focus", function(c) c.border_color = '#6488a2' end)
+client.connect_signal("unfocus", function(c) c.border_color = '#204460' end)
 -- }}}
 
 -- Gaps
-beautiful.useless_gap = 7
+beautiful.useless_gap = 5
 
 
 -- Autostart
 awful.spawn.with_shell("picom")
-awful.spawn.with_shell("feh --bg-fill --randomize ~/Pictures/space/*")
+awful.spawn.with_shell("feh --bg-fill --randomize ~/Pictures/wallpapers/*") -- change directory to wallpaper folder
 awful.spawn.with_shell("theme.sh -r")

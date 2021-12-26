@@ -140,8 +140,8 @@ awful.screen.connect_for_each_screen(function(s)
 	ping = wibox.widget {
 		font = "mononoki 18",
 		widget = awful.widget.watch('bash -c "ping -c1 archlinux.com"', 300, function(widget,stdout)
-			if (stdout:sub(1,1)):match("P") then widget:set_text("ߡη")
-			else widget:set_text("ߜη")
+			if (stdout:sub(1,1)):match("P") then widget:set_markup("<span foreground='cyan'>ʌη</span>")
+			else widget:set_markup("<span foreground='magenta'>vη</span>")
 			end
 		end)}
 	
@@ -151,12 +151,12 @@ awful.screen.connect_for_each_screen(function(s)
 	
 	cap = wibox.widget {
 		font = "mononoki 9",
-		widget = awful.widget.watch('bash -c "df -H / | grep -vE \'^Filesystem\' | awk \'{print $2}\'"', 86400)}
+		widget = awful.widget.watch('bash -c "df -H | grep \'^/dev\' | awk \'{print $2}\'"', 86400)}
 		
 	disk = wibox.widget {
 		font = "mononoki 12",
 		opacity = 1,
-		widget = awful.widget.watch('bash -c "df -H / | grep -vE \'^Filesystem\' | awk \'{print $5}\'"',  1800)}
+		widget = awful.widget.watch('bash -c "df -H | grep \'^/dev\' | awk \'{print $5}\'"',  18)}
 
     -- Create wibars
     s.leftbar = awful.wibar({ position = "left", screen = s, width = 28, shape = gears.shape.rounded_bar, opacity = 0.75, bg = 'transparent', fg = '#dddddd'})

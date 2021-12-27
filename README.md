@@ -4,7 +4,7 @@ A beautiful, minimalist, productivity-focused setup inspired by the _Culture_ sc
 ![Screenshot_20211226_182735](https://user-images.githubusercontent.com/86522370/147416986-e86587ab-eccf-4538-b91a-4fd249c60629.png)
 
 
-Includes subtle diagnostics via shell scripting (network status, CPU temps, disk capacities and availabilities), and custom battery readout adapted from github.com/deficient/battery-widget.
+Includes subtle diagnostics via shell scripting, including: network status, CPU temps, disk capacities & availabilities and battery charge (if appropriate). These scripts run simple Linux bash commands - they may not translate on every system, and can be commented out or adjusted if buggy.
 
 Install is as simple as running:
 
@@ -27,6 +27,3 @@ Optional extras:
 **neovim** as default editor.
 
 **theme.sh** will randomise terminal theme on startup, provided ohmyzsh is installed and theme memory is set up.
-
-
-Shell scripts have only been tested on Linux, not guaranteed to translate on all systems. If diagnostics are not showing up, the scripts are likely failing to run.

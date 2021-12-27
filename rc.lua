@@ -155,8 +155,20 @@ awful.screen.connect_for_each_screen(function(s)
 		
 	disk = wibox.widget {
 		font = "mononoki 12",
-		opacity = 1,
 		widget = awful.widget.watch('bash -c "df -H | grep \'^/dev\' | awk \'{print $5}\'"',  18)}
+
+	bat = wibox.widget {
+		font = "mononoki 12",
+		widget = awful.widget.watch('bash -c "cat /sys/class/power_supply/BAT0/capacity"', 60, function(widget,stdout)
+			local file = io.open("/sys/class/power_supply/BAT0/status")
+			local state = file:read('*all')
+			local colour = ""
+			file:close()
+			if state:match("Charging") then colour = "orange"
+			else colour = "red" end
+			widget:set_markup("<span foreground='"..colour.."'>"..stdout:match("%d%d").."%".."</span>")
+		end)}
+
 
     -- Create wibars
     s.leftbar = awful.wibar({ position = "left", screen = s, width = 28, shape = gears.shape.rounded_bar, opacity = 0.75, bg = 'transparent', fg = '#dddddd'})
@@ -177,7 +189,7 @@ awful.screen.connect_for_each_screen(function(s)
 	{
 		layout = wibox.layout.flex.vertical,
 		clock,
-		require("orbital-bat") {widget_font = "mononoki 18"},
+		bat,
 		date,
 		},
 		disk

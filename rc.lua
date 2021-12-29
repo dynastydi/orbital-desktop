@@ -159,7 +159,7 @@ awful.screen.connect_for_each_screen(function(s)
 
 	bat = wibox.widget {
 		font = "mononoki 12",
-		widget = awful.widget.watch('bash -c "cat /sys/class/power_supply/BAT0/capacity"', 60, function(widget,stdout)
+		widget = awful.widget.watch('bash -c "cat /sys/class/power_supply/BAT0/capacity"', 10, function(widget,stdout)
 			local file = io.open("/sys/class/power_supply/BAT0/status")
 			local state = file:read('*all')
 			local colour = ""
@@ -171,9 +171,13 @@ awful.screen.connect_for_each_screen(function(s)
 
 
     -- Create wibars
-    s.leftbar = awful.wibar({ position = "left", screen = s, width = 28, shape = gears.shape.rounded_bar, opacity = 0.75, bg = 'transparent', fg = '#dddddd'})
+    s.leftbar = awful.wibar({ position = "left", screen = s, width = 28, bg = '#11111160', fg = '#dddddddd'})
 
-    s.rightbar = awful.wibar({position = "right", screen = s, width = 28, shape = gears.shape.rounded_bar, opacity = 0.75, bg = 'transparent', fg = '#dddddd'})
+    s.rightbar = awful.wibar({position = "right", screen = s, width = 28, bg = '#11111160', fg = '#dddddddd'})
+
+    --s.upbar = awful.wibar({ position = "top", screen = s, height = 10, bg = '#11111160', fg = '#dddddd' })
+
+    --s.downbar = awful.wibar({ position = "bottom", screen = s, height = 10, bg = '#11111160', fg = '#dddddd' })
 
     -- Add widgets to the wibox
     s.leftbar:setup {

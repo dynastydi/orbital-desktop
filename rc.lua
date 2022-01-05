@@ -18,6 +18,16 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+local font = 'juliamono'
+
+local function num_to_hd(num)
+	if num > 9 then 
+		num = string.char(87+num)
+	end
+	return num
+end
+
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -94,14 +104,14 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- Create a textclock widget
 clock = wibox.widget {
 	format = '%H %M %S',
-	font = "mononoki 18",
+	font = font.." 18",
 	refresh = 1,
 	widget = wibox.widget.textclock
 }
 
 date = wibox.widget {
 	format = '%d %m %y',
-	font = "mononoki 18",
+	font = font.. " 18",
 	refresh = 43200, -- SHOULD refresh at midnight (tweak if needed)
 	widget = wibox.widget.textclock
 }
@@ -134,38 +144,41 @@ awful.screen.connect_for_each_screen(function(s)
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
         buttons = taglist_buttons,
-	style = {font = "mononoki 27", shape = gears.shape.rounded_bar},
+	style = {font = font.." 27", shape = gears.shape.rounded_bar},
 	layout = 	{layout = wibox.layout.flex.vertical}
 }
 	ping = wibox.widget {
-		font = "mononoki 18",
-		widget = awful.widget.watch('bash -c "ping -c1 archlinux.com"', 300, function(widget,stdout)
-			if (stdout:sub(1,1)):match("P") then widget:set_markup("<span foreground='cyan'>ʌη</span>")
-			else widget:set_markup("<span foreground='magenta'>vη</span>")
+		font = font.." 11",
+		widget = awful.widget.watch('bash -c "ping -c1 archlinux.org | grep ^64 | awk \'{print $8}\' | cut -c6-12 | cut -f1 -d."', 300, function(widget, stdout)
+			if string.len(stdout) > 0 then widget:set_markup("<span foreground='#95ff90dd'>"..stdout.."ms</span>")
+			else widget:set_markup("<span foreground='#fd888add'>no\nsg</span>")
 			end
-		end)}
+		end)
+}
 	
 	temp = wibox.widget {
-        	font = "mononoki 12",
+        	font = font.." 11",
         	widget = awful.widget.watch('bash -c "sensors | grep Core | awk \'{print $3}\'| cut -c2-3,8 "', 15)}
 	
 	cap = wibox.widget {
-		font = "mononoki 9",
+		font = font.." 9",
 		widget = awful.widget.watch('bash -c "df -H | grep \'^/dev\' | awk \'{print $2}\'"', 86400)}
 		
 	disk = wibox.widget {
-		font = "mononoki 12",
+		font = font.." 11",
 		widget = awful.widget.watch('bash -c "df -H | grep \'^/dev\' | awk \'{print $5}\'"',  18)}
 
 	bat = wibox.widget {
-		font = "mononoki 12",
+		font = font.." 11",
 		widget = awful.widget.watch('bash -c "cat /sys/class/power_supply/BAT0/capacity"', 10, function(widget,stdout)
 			local file = io.open("/sys/class/power_supply/BAT0/status")
 			local state = file:read('*all')
-			local colour = ""
 			file:close()
-			if state:match("Charging") then colour = "orange"
-			else colour = "red" end
+			local per = stdout:match("%d%d")
+			local colour = ""
+			local mod = num_to_hd(tonumber(string.sub(per,1,1))+6)
+			if state:match("Charging") then colour = "#02"..mod.."38ddd"
+			else colour = "#ff8a"..mod.."0dd" end
 			widget:set_markup("<span foreground='"..colour.."'>"..stdout:match("%d%d").."%".."</span>")
 		end)}
 
@@ -504,3 +517,4 @@ beautiful.useless_gap = 5
 awful.spawn.with_shell("picom")
 awful.spawn.with_shell("feh --bg-fill --randomize ~/Pictures/wallpapers/*") -- change directory to wallpaper folder
 awful.spawn.with_shell("theme.sh -r")
+awful.spawn.with_shell("xss-lock -- i3lock -u --blur 5")

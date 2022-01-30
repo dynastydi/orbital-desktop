@@ -18,7 +18,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
-local font = 'juliamono'
+local font = 'borgsansmono'
 
 local function num_to_hd(num)
 	if num > 9 then 
@@ -267,7 +267,18 @@ globalkeys = gears.table.join(
             end
         end,
         {description = "go back", group = "client"}),
+    
+    awful.key({ modkey }, "F2", function () awful.spawn("amixer set Master 5%-") end,
+		{description = "volume down", group = "orbital"}),
 
+    awful.key({ modkey }, "F3", function () awful.spawn("amixer set Master 5%+") end,
+		{description = "volume up", group = "orbital"}),
+
+    awful.key({ modkey }, "F6", function () awful.spawn("light -U 5") end,
+		{description = "brightness down", group = "orbital"}),
+		
+    awful.key({ modkey }, "F7", function () awful.spawn("light -A 5") end,
+		{description = "brightness up", group = "orbital"}),    
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
@@ -293,7 +304,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
 
-    awful.key({ modkey, "Control" }, "n",
+    awful.key({ modkey, "Control" }, "F6",
               function ()
                   local c = awful.client.restore()
                   -- Focus restored client
@@ -306,7 +317,8 @@ globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Prompt
-    awful.key({ modkey },            "space",     function () 
+
+	awful.key({ modkey },            "space",     function () 
     awful.util.spawn("dmenu_run") end,
               {description = "launch dmenu", group = "orbital"}),
 
@@ -515,6 +527,6 @@ beautiful.useless_gap = 5
 
 -- Autostart
 awful.spawn.with_shell("picom")
-awful.spawn.with_shell("feh --bg-fill --randomize ~/Pictures/wallpapers/*") -- change directory to wallpaper folder
-awful.spawn.with_shell("theme.sh -r")
+awful.spawn.with_shell("feh --bg-fill --randomize ~/pics/wallpapers/*") -- change directory to wallpaper folder
+awful.spawn.with_shell("theme.sh --dark -r")
 awful.spawn.with_shell("xss-lock -- i3lock -u --blur 5")

@@ -16,7 +16,7 @@ ${favourite_package_manager} awesome dmenu alacritty
 
 Optional extras:
 
-**mononoki** used as a global font.
+**borg sans mono** used as a global font.
 
 **picom** for transparency (spawned with awesome)
 
@@ -24,4 +24,6 @@ Optional extras:
 
 **neovim** as default editor.
 
-**theme.sh** will randomise terminal theme on startup, provided ohmyzsh is installed and theme memory is set up.
+**ohmyzsh** && **theme.sh** will set/randomise terminal themes automatically.
+
+**light** && **amixer** will enable backlight & volume keymappings.
